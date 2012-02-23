@@ -25,13 +25,12 @@ def ical(request, full=False):
 
 	performances = p.objects.all()
 	for performance in performances:
-		gig = performance.gigID
-# 		print performance.gigID.id, gig.id		
+		gig = performance.gig
 		start = datetime.strptime('{0} {1}'.format(gig.date, performance.time), "%Y-%m-%d %H:%M:%S")
 		if start > datetime.now() or full:
 			end = start + timedelta(hours=2)
 			ical_event = Event()
-			ical_event.add('summary','{0}, {1}, {2}'.format(gig.venueID.name, gig.venueID.city, gig.venueID.state))
+			ical_event.add('summary','{0}, {1}, {2}'.format(gig.venue.name, gig.venue.city, gig.venue.state))
 			ical_event.add('dtstart',start)
 			ical_event.add('dtend',end)
 			ical_event.add('description','http://{0}{1}'.format(site.domain,performance.get_absolute_url()))
@@ -46,8 +45,8 @@ def performance(request,id, html_template='gigs/performance.html'):
 	"""
 	"""
 	performance = p.objects.get(id=id)
-	gig = performance.gigID
-	venue = gig.venueID
+	gig = performance.gig
+	venue = gig.venue
 # 	venue.address = re.sub('\n','<br />',venue.address)
 	
 	context = RequestContext(request, {
