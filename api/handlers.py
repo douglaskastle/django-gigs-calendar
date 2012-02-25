@@ -1,6 +1,9 @@
 from piston.handler import BaseHandler
 from django.db.models import get_model
 
+# Temporary security fix
+ALLOWED_DB = ['gigs']
+
 class IngestHandler(BaseHandler):
 	allowed_methods = ('POST',)
 
@@ -13,8 +16,8 @@ class IngestHandler(BaseHandler):
 		r = request.POST
 		keys = r.keys()
 		if 'id' in keys and 'model' in keys and 'db' in keys:
-			# Temporary security fix
-			if not r['db'] == 'gigs':
+			if not r['db'] in ALLOWED_DB:
+				response['error'] = 'Illegal Database access'
 				return self.response
 				
 			try:
@@ -31,6 +34,9 @@ class IngestHandler(BaseHandler):
 					s = m()
 
 				for k in s.__dict__.keys():
+					# need to make sure that private attributes are
+					# safe and id (for mongo), db and model are not
+					# used
 					if k == 'id'\
 					or k == 'db'\
 					or k == 'model'\

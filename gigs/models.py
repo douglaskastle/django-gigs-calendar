@@ -9,7 +9,6 @@ class gig(models.Model):
 	post       = models.IntegerField(blank=True, null=True) # This is a function of wordpress
 	eventName  = models.CharField(max_length=255,blank=True, null=True)
 	tour       = models.ForeignKey('tour',blank=True, null=True)
-# 	rid        = models.IntegerField(blank=True,null=True)
 
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
@@ -25,7 +24,6 @@ class performance(models.Model):
 	link       = models.CharField(max_length=255,blank=True,null=True)
 	shortNotes = models.CharField(max_length=255,blank=True,null=True)
 	ages       = models.CharField(max_length=255,blank=True,null=True)
-# 	rid        = models.IntegerField(blank=True,null=True)
 
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
@@ -43,7 +41,6 @@ class tour(models.Model):
 	name       = models.CharField(max_length=255)
 	notes      = models.TextField(blank=True,null=True)
 	pos        = models.IntegerField(blank=True,null=True)
-# 	rid        = models.IntegerField(blank=True,null=True)
 
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
@@ -67,7 +64,6 @@ class venue(models.Model):
 	api        = models.IntegerField(blank=True,null=True)
 	deleted    = models.BooleanField()
 	customMap  = models.CharField(max_length=255,blank=True,null=True)
-# 	rid        = models.IntegerField(blank=True,null=True)
 
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
