@@ -22,22 +22,14 @@ class IngestHandler(BaseHandler):
 				try:
 					p = n.objects.get(rid=r['id'],db=r['id'],model=r['model'])
 				except:
-					p = n()
-					p.rid = r['id']
-					p.db = r['db']
-					p.model = r['model']
+					p = n(rid=r['id'],db=r['id'],model=r['model'])
 
 				m = get_model(r['db'], r['model'])
 				try:
 					s = m.objects.get(id=p.mid)
-# 					s = m.objects.get(rid=r['id'])
 				except:
 					s = m()
-				p.mid = s.id
-				p.save()
-				
 
-# 				s.rid = r['id']
 				for k in s.__dict__.keys():
 					if k == 'id'\
 					or k == 'db'\
@@ -52,6 +44,9 @@ class IngestHandler(BaseHandler):
 							a = None
 						setattr(s,k,a)
 				s.save()
+
+				p.mid = s.id
+				p.save()
 				self.response = {'ok': True, 'id': s.id}
 			except:
 				pass
