@@ -16,6 +16,10 @@ class gig(models.Model):
 	def __unicode__(self):
 		return '{0} - {1}'.format(self.date,self.venue.name)
 
+	@models.permalink
+	def get_absolute_url(self):
+		return ('gig', [self.id])
+
 class performance(models.Model):
 	"""
 	"""
@@ -30,10 +34,6 @@ class performance(models.Model):
 
 	def __unicode__(self):
 		return '{0}'.format(self.time)
-
-	@models.permalink
-	def get_absolute_url(self):
-		return ('performance', [self.id])
 
 class tour(models.Model):
 	"""

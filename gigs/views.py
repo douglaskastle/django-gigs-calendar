@@ -9,6 +9,7 @@ from django.template import RequestContext
 import re
 
 p = get_model('gigs', 'performance')
+g = get_model('gigs', 'gig')
 
 def ical(request, full=False):
 	"""
@@ -33,7 +34,7 @@ def ical(request, full=False):
 			ical_event.add('summary','{0}, {1}, {2}'.format(gig.venue.name, gig.venue.city, gig.venue.state))
 			ical_event.add('dtstart',start)
 			ical_event.add('dtend',end)
-			url = 'http://{0}{1}'.format(site.domain,performance.get_absolute_url())
+			url = 'http://{0}{1}'.format(site.domain,gig.get_absolute_url())
 			ical_event.add('description',url)
 			cal.add_component(ical_event)
 
@@ -42,16 +43,16 @@ def ical(request, full=False):
 	response['Content-Disposition'] = 'attachment; filename=filename.ics'
 	return response
 
-def performance(request,id, html_template='gigs/performance.html'):
+def gig(request,id, html_template='gigs/gig.html'):
 	"""
 	"""
-	performance = p.objects.get(id=id)
-	gig = performance.gig
+	gig = g.objects.get(id=id)
 	venue = gig.venue
-# 	venue.address = re.sub('\n','<br />',venue.address)
+	performances = p.objects.filter(gig=gig.id)
+ 	#venue.address = re.sub('\n','<br />',venue.address)
 	
 	context = RequestContext(request, {
-		'performance': performance,
+		'performances': performances,
 		'gig': gig,
 		'venue': venue,
 	})
