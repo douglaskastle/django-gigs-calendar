@@ -33,7 +33,7 @@ class performance(models.Model):
 
 	@models.permalink
 	def get_absolute_url(self):
-		return ('performance', [int(self.id)])
+		return ('performance', [self.id])
 
 class tour(models.Model):
 	"""
@@ -44,7 +44,6 @@ class tour(models.Model):
 
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
-
 
 class venue(models.Model):
 	"""

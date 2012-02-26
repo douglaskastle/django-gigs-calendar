@@ -33,7 +33,8 @@ def ical(request, full=False):
 			ical_event.add('summary','{0}, {1}, {2}'.format(gig.venue.name, gig.venue.city, gig.venue.state))
 			ical_event.add('dtstart',start)
 			ical_event.add('dtend',end)
-			ical_event.add('description','http://{0}{1}'.format(site.domain,performance.get_absolute_url()))
+			url = 'http://{0}{1}'.format(site.domain,performance.get_absolute_url())
+			ical_event.add('description',url)
 			cal.add_component(ical_event)
 
 	response = HttpResponse(cal.as_string(), mimetype='text/calendar')
