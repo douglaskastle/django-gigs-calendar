@@ -1,0 +1,32 @@
+
+{% block title %}Gigs{% endblock %}
+
+{% block content %}
+    <div class="title span-18 last">
+        <h2>{{ type }}</h2>
+    </div>
+<!-- 
+	<div class="span-24 last">
+		<p>When</p>
+		<p>{{gig.date}}</p>
+		<p>{{performance.time}} - {{performance.ages}}</p>
+		<p>Where</p>
+		<p><a href="{{venue.link}}">{{venue.name}}</a> (<a href="{{venue.customMap}}">Map</a>)</p>
+ 		<p>{{venue.address}}</p>
+ 		<p>{{venue.city}}, {{venue.state}}, {{venue.postalCode}}, {{venue.country}}</p>
+   </div> 
+-->
+    <div class="entry-content">
+		<table>
+		<tbody>
+			<tr class="when">
+			<td class="bold" valign="top">When</td>
+			<td>
+				{% for gig in gigs %}
+				<div class="gig"><a href="{{ gig.get_absolute_url }}">{{gig.venue.name}} - {{gig.date}}</a></div>
+				{% endfor %}
+			</td>
+		</tbody>
+		</table>
+   </div>
+{% endblock %}

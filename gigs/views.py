@@ -11,24 +11,24 @@ import re
 p = get_model('gigs', 'performance')
 g = get_model('gigs', 'gig')
 
-def ical(request, full=False):
+def ical(request, type='Full'):
 	"""
 	"""
 	cal = Calendar()
 	site = Site.objects.get_current()
 	
-	if full:
-		cal_type = 'Full'
+	if type.lower() == 'full':
+		gigs = g.objects.all()
 	else:
-		cal_type = 'Upcoming'
-	cal.add('prodid','-//{0} Events Calendar//{1}//EN'.format(cal_type, site.domain))
+		gigs = g.objects.filter(date__gte=datetime.now())
+
+	cal.add('prodid','-//{0} Events Calendar//{1}//EN'.format(type, site.domain))
 	cal.add('version','2.0')
 
-	performances = p.objects.all()
-	for performance in performances:
-		gig = performance.gig
-		start = datetime.strptime('{0} {1}'.format(gig.date, performance.time), "%Y-%m-%d %H:%M:%S")
-		if start > datetime.now() or full:
+	for gig in gigs:
+		performances = p.objects.filter(gig=gig.id)
+		for performance in performances:
+			start = datetime.strptime('{0} {1}'.format(gig.date, performance.time), "%Y-%m-%d %H:%M:%S")
 			end = start + timedelta(hours=2)
 			ical_event = Event()
 			ical_event.add('summary','{0}, {1}, {2}'.format(gig.venue.name, gig.venue.city, gig.venue.state))
@@ -55,6 +55,27 @@ def gig(request,id, html_template='gigs/gig.html'):
 		'performances': performances,
 		'gig': gig,
 		'venue': venue,
+	})
+	return render_to_response(html_template, context)
+
+	response = {}
+	status_code = 200
+	body = json.dumps(response, indent=4)
+	return HttpResponse(body, status=status_code)
+
+def gigs(request,type='All',html_template='gigs/gigs.html'):
+	"""
+	"""
+	if type.lower() == 'archive':
+		gigs = g.objects.filter(date__lte=datetime.now())
+	elif  type.lower() == 'upcoming':
+		gigs = g.objects.filter(date__gte=datetime.now())
+	else:
+		gigs = g.objects.all()
+	
+	context = RequestContext(request, {
+		'type': type,
+		'gigs': gigs,
 	})
 	return render_to_response(html_template, context)
 
