@@ -29,7 +29,7 @@ class performance(models.Model):
 	updated_at = models.DateTimeField(auto_now=True)
 
 	def __unicode__(self):
-		return '{0} - {1} - {2}'.format(self.time,self.gig.date,self.gig.venue.name)
+		return '{0}'.format(self.time)
 
 	@models.permalink
 	def get_absolute_url(self):
