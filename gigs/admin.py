@@ -8,7 +8,7 @@ class gigsAdmin(admin.ModelAdmin):
 
 class performanceInline(admin.TabularInline):
 	model = performance
-	extra = 0
+	extra = 1
 
 class gigAdmin(admin.ModelAdmin):
 	inlines = [performanceInline,]
