@@ -53,7 +53,7 @@ Installation
 Usage
 =====
 #) Start the development server: ``./manage.py runserver``
-#) Navigate to ``/admin/`` you will find that you can add venues, at venues you can have gigs, it that simple
+#) Navigate to ``/admin/`` you will find that you can add venues, at venues you can have gigs, it is that simple
 #) Once gigs have been added you can check use these links::
 
 	/gig/<id>/ # HTML page of the gig that is stored at <id>
