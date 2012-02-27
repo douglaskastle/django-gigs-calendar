@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.db.models import get_model
 import simplejson as json
-from icalendar import Calendar, Event, UTC
+from icalendar import Calendar, Event
 from datetime import datetime, timedelta
 from django.contrib.sites.models import Site
 from django.shortcuts import render_to_response
